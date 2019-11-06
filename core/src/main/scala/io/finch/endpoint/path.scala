@@ -1,8 +1,10 @@
 package io.finch.endpoint
 
 import cats.Applicative
+import io.finch.Endpoint.Meta
 import io.finch._
 import io.netty.handler.codec.http.QueryStringDecoder
+
 import scala.reflect.ClassTag
 import shapeless.HNil
 
@@ -20,6 +22,7 @@ private[finch] class MatchPath[F[_]](s: String)(implicit
   }
 
   final override def toString: String = s
+  final override def meta: Meta = EndpointMetadata.NoOp
 }
 
 private[finch] class ExtractPath[F[_], A](implicit
@@ -41,6 +44,7 @@ private[finch] class ExtractPath[F[_], A](implicit
   }
 
   final override lazy val toString: String = s":${ct.runtimeClass.getSimpleName.toLowerCase}"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }
 
 private[finch] class ExtractPaths[F[_], A](implicit
@@ -55,4 +59,5 @@ private[finch] class ExtractPaths[F[_], A](implicit
   )
 
   final override lazy val toString: String = s":${ct.runtimeClass.getSimpleName.toLowerCase}*"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }

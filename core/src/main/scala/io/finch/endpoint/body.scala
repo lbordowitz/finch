@@ -6,6 +6,9 @@ import io.finch._
 import io.finch.internal._
 import io.finch.items._
 import java.nio.charset.{Charset, StandardCharsets}
+
+import io.finch.Endpoint.Meta
+
 import scala.reflect.ClassTag
 
 private[finch] abstract class FullBody[F[_], A] extends Endpoint[F, A] {
@@ -111,6 +114,7 @@ private[finch] final class BinaryBodyStream[F[_], S[_[_], _]](implicit
     Output.payload(LR(r, this))
 
   override def toString: String = "binaryBodyStream"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }
 
 private[finch] final class StringBodyStream[F[_], S[_[_], _]](implicit
@@ -126,6 +130,7 @@ private[finch] final class StringBodyStream[F[_], S[_[_], _]](implicit
   }
 
   override def toString: String = "stringBodyStream"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }
 
 private[finch] final class BodyStream[F[_], S[_[_], _], A, CT <: String](implicit
@@ -138,4 +143,5 @@ private[finch] final class BodyStream[F[_], S[_[_], _], A, CT <: String](implici
     Output.payload(A(LR(r), cs))
 
   override def toString: String = "bodyStream"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }

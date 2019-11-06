@@ -1,6 +1,7 @@
 package io.finch.endpoint
 
 import com.twitter.finagle.http.{Method => FinagleMethod}
+import io.finch.Endpoint.Meta
 import io.finch._
 
 private[finch] class Method[F[_], A](m: FinagleMethod, e: Endpoint[F, A]) extends Endpoint.Mappable[F, A] { self =>
@@ -13,4 +14,5 @@ private[finch] class Method[F[_], A](m: FinagleMethod, e: Endpoint[F, A]) extend
     }
 
   final override def toString: String = s"${ m.toString.toUpperCase } /${ e.toString }"
+  final override def meta: Meta = EndpointMetadata.NoOp
 }

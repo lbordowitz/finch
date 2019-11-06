@@ -6,6 +6,8 @@ import cats.syntax.all._
 import com.twitter.finagle.http.{Method => FinagleMethod}
 import com.twitter.io.Buf
 import java.io.InputStream
+
+import io.finch.Endpoint.Meta
 import shapeless.HNil
 
 package object endpoint {
@@ -29,6 +31,7 @@ package object endpoint {
           S.shift.flatMap(_ => readLoop(Buf.Empty, s)).map(buf => Output.payload(buf))
         )
       )
+    final override def meta: Meta = EndpointMetadata.NoOp
   }
 
   private[finch] class Asset[F[_]](path: String)(implicit F: Applicative[F]) extends Endpoint[F, HNil] {
@@ -44,5 +47,6 @@ package object endpoint {
     }
 
     final override def toString: String = s"GET /$path"
+    final override def meta: Meta = EndpointMetadata.NoOp
   }
 }
