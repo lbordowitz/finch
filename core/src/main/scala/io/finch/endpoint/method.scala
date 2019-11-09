@@ -14,5 +14,5 @@ private[finch] class Method[F[_], A](m: FinagleMethod, e: Endpoint[F, A]) extend
     }
 
   final override def toString: String = s"${ m.toString.toUpperCase } /${ e.toString }"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.Method(m, e.meta)
 }
