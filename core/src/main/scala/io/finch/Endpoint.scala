@@ -810,7 +810,7 @@ object Endpoint {
         else EndpointResult.NotMatched[F]
 
       final override def toString: String = ""
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.Path(None)
     }
 
   /**

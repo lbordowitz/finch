@@ -32,4 +32,9 @@ object EndpointMetadata {
   case class MetaList(metas: Seq[Meta]) extends EndpointMetadata {
     override def asList: Seq[Meta] = metas
   }
+
+  case class Path(pathOpt: Option[String]) extends EndpointMetadata {
+    override def asList: Seq[Meta] = List(this)
+  }
+
 }
