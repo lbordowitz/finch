@@ -101,7 +101,7 @@ trait Endpoint[F[_], A] { self =>
 
       final override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp(9)
+      final override def meta: Meta = self.meta
     }
 
   /**
