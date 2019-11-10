@@ -3,9 +3,7 @@ package io.finch
 import com.twitter.finagle.http.{Method => FinagleMethod}
 import io.finch.Endpoint.Meta
 
-sealed trait EndpointMetadata {
-  def asList: Seq[Meta]
-}
+sealed trait EndpointMetadata
 
 object EndpointMetadata {
   private def addNonListToList(a: Meta, bs: MetaList): MetaList = {
@@ -24,18 +22,10 @@ object EndpointMetadata {
     case (a, b) => MetaList(List(a,b))
   }
 
-  case class NoOp(i: Int) extends EndpointMetadata {
-    override def asList: Seq[Meta] = List(this)
-  }
-  case class Method(method: FinagleMethod, em: EndpointMetadata) extends EndpointMetadata {
-    override def asList: Seq[Meta] = List(this)
-  }
-  case class MetaList(metas: Seq[Meta]) extends EndpointMetadata {
-    override def asList: Seq[Meta] = metas
-  }
-
-  case class Path(pathOpt: Option[String]) extends EndpointMetadata {
-    override def asList: Seq[Meta] = List(this)
-  }
+  case class NoOp(i: Int) extends EndpointMetadata
+  case class Method(method: FinagleMethod, em: EndpointMetadata) extends EndpointMetadata
+  case class MetaList(metas: Seq[Meta]) extends EndpointMetadata
+  case class Path(pathOpt: Option[String]) extends EndpointMetadata
+  case class AndThen(firstMeta: Meta, secondMeta: Meta) extends EndpointMetadata
 
 }
