@@ -16,11 +16,11 @@ object EndpointMetadata {
   }
   def list(a: Meta, b: Meta): MetaList = (a, b) match {
     case (as: MetaList, bs: MetaList) => MetaList(as.metas ++ bs.metas)
-    case (_: NoOp, _: NoOp) => MetaList(List.empty)
+    // case (_: NoOp, _: NoOp) => MetaList(List.empty)
     case (as: MetaList, b) => addNonListToList(as.metas.head, MetaList(as.metas.tail :+ b))
-    case (a, _: NoOp) => MetaList(List(a))
+    // case (a, _: NoOp) => MetaList(List(a))
     case (a, bs: MetaList) => addNonListToList(a, bs)
-    case (_: NoOp, b) => MetaList(List(b))
+    // case (_: NoOp, b) => MetaList(List(b))
   }
 
   case class NoOp(i: Int) extends EndpointMetadata {
