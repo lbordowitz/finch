@@ -21,6 +21,7 @@ object EndpointMetadata {
     // case (a, _: NoOp) => MetaList(List(a))
     case (a, bs: MetaList) => addNonListToList(a, bs)
     // case (_: NoOp, b) => MetaList(List(b))
+    case (a, b) => MetaList(List(a,b))
   }
 
   case class NoOp(i: Int) extends EndpointMetadata {
