@@ -78,6 +78,8 @@ trait Endpoint[F[_], A] { self =>
    * TODO Documentation
    */
   def meta: Meta
+  // TODO use this definition, which will aid with backwards compatibility, but only once all the other meta stuff is done.
+  // def meta: Meta = EndpointMetadata.NoOp(-1)
 
   /**
     * Maps this endpoint to the given function `A => B`.
