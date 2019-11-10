@@ -44,7 +44,15 @@ private[finch] class ExtractPath[F[_], A](implicit
   }
 
   final override lazy val toString: String = s":${ct.runtimeClass.getSimpleName.toLowerCase}"
-  final override def meta: Meta = EndpointMetadata.NoOp(5)
+  override def meta: Meta = EndpointMetadata.PathParam(ct.runtimeClass.getSimpleName)
+}
+
+private[finch] class AnnotatedExtractPath[F[_], A](pathName: String)(implicit
+  d: DecodePath[A],
+  ct: ClassTag[A],
+  F: Applicative[F]
+) extends ExtractPath[F, A] {
+  final override def meta: Meta = EndpointMetadata.PathParam(ct.runtimeClass.getSimpleName, Some(pathName))
 }
 
 private[finch] class ExtractPaths[F[_], A](implicit

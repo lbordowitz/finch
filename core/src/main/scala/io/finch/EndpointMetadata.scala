@@ -27,5 +27,6 @@ object EndpointMetadata {
   case class MetaList(metas: Seq[Meta]) extends EndpointMetadata
   case class Path(pathOpt: Option[String]) extends EndpointMetadata
   case class AndThen(firstMeta: Meta, secondMeta: Meta) extends EndpointMetadata
+  case class PathParam(pathType: String, pathOpt: Option[String] = None) extends EndpointMetadata
 
 }
