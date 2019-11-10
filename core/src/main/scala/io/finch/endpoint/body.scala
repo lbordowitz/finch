@@ -114,7 +114,7 @@ private[finch] final class BinaryBodyStream[F[_], S[_[_], _]](implicit
     Output.payload(LR(r, this))
 
   override def toString: String = "binaryBodyStream"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.NoOp(0)
 }
 
 private[finch] final class StringBodyStream[F[_], S[_[_], _]](implicit
@@ -130,7 +130,7 @@ private[finch] final class StringBodyStream[F[_], S[_[_], _]](implicit
   }
 
   override def toString: String = "stringBodyStream"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.NoOp(1)
 }
 
 private[finch] final class BodyStream[F[_], S[_[_], _], A, CT <: String](implicit
@@ -143,5 +143,5 @@ private[finch] final class BodyStream[F[_], S[_[_], _], A, CT <: String](implici
     Output.payload(A(LR(r), cs))
 
   override def toString: String = "bodyStream"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.NoOp(2)
 }

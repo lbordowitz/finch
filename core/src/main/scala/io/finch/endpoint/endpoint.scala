@@ -31,7 +31,7 @@ package object endpoint {
           S.shift.flatMap(_ => readLoop(Buf.Empty, s)).map(buf => Output.payload(buf))
         )
       )
-    final override def meta: Meta = EndpointMetadata.NoOp
+    final override def meta: Meta = EndpointMetadata.NoOp(3)
   }
 
   private[finch] class Asset[F[_]](path: String)(implicit F: Applicative[F]) extends Endpoint[F, HNil] {
@@ -47,6 +47,6 @@ package object endpoint {
     }
 
     final override def toString: String = s"GET /$path"
-    final override def meta: Meta = EndpointMetadata.NoOp
+    final override def meta: Meta = EndpointMetadata.NoOp(4)
   }
 }

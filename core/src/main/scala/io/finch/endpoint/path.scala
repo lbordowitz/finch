@@ -44,7 +44,7 @@ private[finch] class ExtractPath[F[_], A](implicit
   }
 
   final override lazy val toString: String = s":${ct.runtimeClass.getSimpleName.toLowerCase}"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.NoOp(5)
 }
 
 private[finch] class ExtractPaths[F[_], A](implicit
@@ -59,5 +59,5 @@ private[finch] class ExtractPaths[F[_], A](implicit
   )
 
   final override lazy val toString: String = s":${ct.runtimeClass.getSimpleName.toLowerCase}*"
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.NoOp(6)
 }

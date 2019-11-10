@@ -101,7 +101,7 @@ trait Endpoint[F[_], A] { self =>
 
       final override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(9)
     }
 
   /**
@@ -125,7 +125,7 @@ trait Endpoint[F[_], A] { self =>
 
       override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(10)
     }
 
   /**
@@ -153,7 +153,7 @@ trait Endpoint[F[_], A] { self =>
 
       override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(11)
     }
 
   /**
@@ -179,7 +179,7 @@ trait Endpoint[F[_], A] { self =>
 
       final override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(12)
     }
 
   /**
@@ -195,7 +195,7 @@ trait Endpoint[F[_], A] { self =>
 
       final override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(13)
     }
 
   /**
@@ -249,7 +249,7 @@ trait Endpoint[F[_], A] { self =>
 
       override def item = self.item
       final override def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(14)
     }
 
   /**
@@ -452,7 +452,7 @@ trait Endpoint[F[_], A] { self =>
 
       override def item = self.item
       override final def toString: String = self.toString
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(15)
     }
 
   /**
@@ -461,7 +461,7 @@ trait Endpoint[F[_], A] { self =>
   final def withToString(ts: => String): Endpoint[F, A] = new Endpoint[F, A] {
     final def apply(input: Input): Endpoint.Result[F, A] = self(input)
     final override def toString: String = ts
-    final override def meta: Meta = EndpointMetadata.NoOp
+    final override def meta: Meta = EndpointMetadata.NoOp(16)
   }
 }
 
@@ -607,7 +607,7 @@ object Endpoint {
   def empty[F[_], A]: Endpoint[F, A] =
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] = EndpointResult.NotMatched[F]
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(17)
     }
 
   /**
@@ -617,7 +617,7 @@ object Endpoint {
     new Endpoint[F, HNil] {
       final def apply(input: Input): Result[F, HNil] =
         EndpointResult.Matched(input, Trace.empty, F.pure(Output.HNil))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(18)
     }
 
   /**
@@ -627,7 +627,7 @@ object Endpoint {
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] =
         EndpointResult.Matched(input, Trace.empty, F.pure(Output.payload(a)))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(19)
     }
 
   /**
@@ -646,7 +646,7 @@ object Endpoint {
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] =
         EndpointResult.Matched(input, Trace.empty, F.delay(Output.payload(a)))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(20)
     }
 
   /**
@@ -656,7 +656,7 @@ object Endpoint {
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] =
         EndpointResult.Matched(input, Trace.empty, F.suspend(fa).map(a => Output.payload(a)))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(21)
     }
 
   /**
@@ -666,7 +666,7 @@ object Endpoint {
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] =
         EndpointResult.Matched(input, Trace.empty, F.delay(oa))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(22)
     }
 
   /**
@@ -677,7 +677,7 @@ object Endpoint {
     new Endpoint[F, A] {
       final def apply(input: Input): Result[F, A] =
         EndpointResult.Matched(input, Trace.empty, F.suspend(foa))
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(23)
     }
 
   /**
@@ -779,7 +779,7 @@ object Endpoint {
         EndpointResult.Matched(input, Trace.empty, F.delay(Output.payload(input.request)))
 
       final override def toString: String = "root"
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(24)
     }
 
   /**
@@ -795,7 +795,7 @@ object Endpoint {
         )
 
       final override def toString: String = "*"
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(25)
     }
 
   /**
@@ -903,7 +903,7 @@ object Endpoint {
    */
   def header[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, A] =
     new Header[F, Id, A](name) with Header.Required[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(26)
     }
 
   /**
@@ -912,7 +912,7 @@ object Endpoint {
    */
   def headerOption[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, Option[A]] =
     new Header[F, Option, A](name) with Header.Optional[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(27)
     }
 
   /**
@@ -921,7 +921,7 @@ object Endpoint {
    */
   def binaryBodyOption[F[_]: Sync]: Endpoint[F, Option[Array[Byte]]] =
     new BinaryBody[F, Option[Array[Byte]]] with FullBody.Optional[F, Array[Byte]] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(28)
     }
 
   /**
@@ -931,7 +931,7 @@ object Endpoint {
    */
   def binaryBody[F[_]: Sync]: Endpoint[F, Array[Byte]] =
     new BinaryBody[F, Array[Byte]] with FullBody.Required[F, Array[Byte]] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(29)
     }
 
   /**
@@ -940,7 +940,7 @@ object Endpoint {
    */
   def stringBodyOption[F[_]: Sync]: Endpoint[F, Option[String]] =
     new StringBody[F, Option[String]] with FullBody.Optional[F, String] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(30)
     }
 
   /**
@@ -950,7 +950,7 @@ object Endpoint {
    */
   def stringBody[F[_]: Sync]: Endpoint[F, String] =
     new StringBody[F, String] with FullBody.Required[F, String] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(31)
     }
 
   /**
@@ -960,7 +960,7 @@ object Endpoint {
    */
   def bodyOption[F[_]: Sync, A: ClassTag, CT](implicit D: Decode.Dispatchable[A, CT]): Endpoint[F, Option[A]] =
     new Body[F, A, Option[A], CT] with FullBody.Optional[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(32)
     }
 
   /**
@@ -970,7 +970,7 @@ object Endpoint {
    */
   def body[F[_]: Sync, A: ClassTag, CT](implicit d: Decode.Dispatchable[A, CT]): Endpoint[F, A] =
     new Body[F, A, A, CT] with FullBody.Required[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(33)
     }
 
   /**
@@ -1074,7 +1074,7 @@ object Endpoint {
    */
   def cookieOption[F[_]: Sync](name: String): Endpoint[F, Option[FinagleCookie]] =
     new Cookie[F, Option[FinagleCookie]](name) with Cookie.Optional[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(34)
     }
 
   /**
@@ -1083,7 +1083,7 @@ object Endpoint {
    */
   def cookie[F[_]: Sync](name: String): Endpoint[F, FinagleCookie] =
     new Cookie[F, FinagleCookie](name) with Cookie.Required[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(35)
     }
 
   /**
@@ -1092,7 +1092,7 @@ object Endpoint {
    */
   def paramOption[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, Option[A]] =
     new Param[F, Option, A](name) with Param.Optional[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(36)
     }
 
   /**
@@ -1102,7 +1102,7 @@ object Endpoint {
    */
   def param[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, A] =
     new Param[F, Id, A](name) with Param.Required[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(37)
     }
 
   /**
@@ -1111,7 +1111,7 @@ object Endpoint {
    */
   def params[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, List[A]] =
     new Params[F, List, A](name) with Params.AllowEmpty[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(38)
     }
 
   /**
@@ -1121,7 +1121,7 @@ object Endpoint {
    */
   def paramsNel[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, NonEmptyList[A]] =
     new Params[F, NonEmptyList, A](name) with Params.NonEmpty[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(39)
     }
 
   /**
@@ -1130,7 +1130,7 @@ object Endpoint {
    */
   def multipartFileUploadOption[F[_]: Sync](name: String): Endpoint[F, Option[FinagleMultipart.FileUpload]] =
     new FileUpload[F, Option](name) with FileUpload.Optional[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(40)
     }
 
   /**
@@ -1139,7 +1139,7 @@ object Endpoint {
    */
   def multipartFileUpload[F[_]: Sync](name: String): Endpoint[F, FinagleMultipart.FileUpload] =
     new FileUpload[F, Id](name) with FileUpload.Required[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(41)
     }
 
   /**
@@ -1148,7 +1148,7 @@ object Endpoint {
    */
   def multipartFileUploads[F[_]: Sync](name: String): Endpoint[F, List[FinagleMultipart.FileUpload]] =
     new FileUpload[F, List](name) with FileUpload.AllowEmpty[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(42)
     }
 
   /**
@@ -1157,7 +1157,7 @@ object Endpoint {
    */
   def multipartFileUploadsNel[F[_]: Sync](name: String): Endpoint[F, NonEmptyList[FinagleMultipart.FileUpload]] =
     new FileUpload[F, NonEmptyList](name) with FileUpload.NonEmpty[F] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(43)
     }
 
   /**
@@ -1166,7 +1166,7 @@ object Endpoint {
    */
   def multipartAttribute[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, A] =
     new Attribute[F, Id, A](name) with Attribute.Required[F, A] with Attribute.SingleError[F, Id, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(44)
     }
 
   /**
@@ -1175,7 +1175,7 @@ object Endpoint {
    */
   def multipartAttributeOption[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, Option[A]] =
     new Attribute[F, Option, A](name) with Attribute.Optional[F, A] with Attribute.SingleError[F, Option, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(45)
     }
 
   /**
@@ -1184,7 +1184,7 @@ object Endpoint {
    */
   def multipartAttributes[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, List[A]] =
     new Attribute[F, List, A](name) with Attribute.AllowEmpty[F, A] with Attribute.MultipleErrors[F, List, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(46)
     }
 
   /**
@@ -1193,6 +1193,6 @@ object Endpoint {
    */
   def multipartAttributesNel[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, NonEmptyList[A]] =
     new Attribute[F, NonEmptyList, A](name) with Attribute.NonEmpty[F, A] with Attribute.MultipleErrors[F, NonEmptyList, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp
+      final override def meta: Meta = EndpointMetadata.NoOp(47)
     }
 }
