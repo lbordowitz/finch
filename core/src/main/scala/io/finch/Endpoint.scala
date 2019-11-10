@@ -300,7 +300,7 @@ trait Endpoint[F[_], A] { self =>
 
     override def item = items.MultipleItems
     final override def toString: String = s"(${self.toString} :+: ${other.toString})"
-    final override def meta: Meta = EndpointMetadata.NoOp
+    final override def meta: Meta = EndpointMetadata.list(self.meta, other.meta)
   }
 
   /**

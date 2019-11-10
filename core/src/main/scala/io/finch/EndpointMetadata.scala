@@ -1,10 +1,35 @@
 package io.finch
 
 import com.twitter.finagle.http.{Method => FinagleMethod}
+import io.finch.Endpoint.Meta
 
-sealed trait EndpointMetadata
+sealed trait EndpointMetadata {
+  def asList: Seq[Meta]
+}
 
 object EndpointMetadata {
-  case object NoOp extends EndpointMetadata
-  case class Method(method: FinagleMethod, em: EndpointMetadata) extends EndpointMetadata
+  private def addNonListToList(a: Meta, bs: MetaList): MetaList = {
+    a match {
+      case NoOp => bs
+      case _ => MetaList(a +: bs.metas)
+    }
+  }
+  def list(a: Meta, b: Meta): MetaList = (a, b) match {
+    case (as: MetaList, bs: MetaList) => MetaList(as.metas ++ bs.metas)
+    case (NoOp, NoOp) => MetaList(List.empty)
+    case (as: MetaList, b) => addNonListToList(as.metas.head, MetaList(as.metas.tail :+ b))
+    case (a, NoOp) => MetaList(List(a))
+    case (a, bs: MetaList) => addNonListToList(a, bs)
+    case (NoOp, b) => MetaList(List(b))
+  }
+
+  case object NoOp extends EndpointMetadata {
+    override def asList: Seq[Meta] = List(this)
+  }
+  case class Method(method: FinagleMethod, em: EndpointMetadata) extends EndpointMetadata {
+    override def asList: Seq[Meta] = List(this)
+  }
+  case class MetaList(metas: Seq[Meta]) extends EndpointMetadata {
+    override def asList: Seq[Meta] = metas
+  }
 }
