@@ -22,7 +22,7 @@ private[finch] class MatchPath[F[_]](s: String)(implicit
   }
 
   final override def toString: String = s
-  final override def meta: Meta = EndpointMetadata.NoOp
+  final override def meta: Meta = EndpointMetadata.Path(Some(s))
 }
 
 private[finch] class ExtractPath[F[_], A](implicit
