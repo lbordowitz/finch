@@ -9,6 +9,9 @@ sealed trait EndpointMetadata
 sealed trait ParameterMetadata[T] extends EndpointMetadata {
   val parameterType: ClassTag[T]
   val parameterNameOpt: Option[String]
+  val description: Option[String]
+  val parameterLocation: String
+  val required: Boolean
 }
 
 object EndpointMetadata {
@@ -33,6 +36,13 @@ object EndpointMetadata {
   case class MetaList(metas: Seq[Meta]) extends EndpointMetadata
   case class Path(pathOpt: Option[String]) extends EndpointMetadata
   case class AndThen(firstMeta: Meta, secondMeta: Meta) extends EndpointMetadata
-  case class PathParam[T](parameterType: ClassTag[T], parameterNameOpt: Option[String] = None) extends ParameterMetadata[T]
+  case class PathParam[T](
+    override val parameterType: ClassTag[T],
+    override val parameterNameOpt: Option[String] = None,
+    override val description: Option[String] = None
+  ) extends ParameterMetadata[T] {
+    override val parameterLocation: String = "path"
+    override val required: Boolean = true
+  }
 
 }
