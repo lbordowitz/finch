@@ -823,6 +823,15 @@ object Endpoint {
     new ExtractPath[F, A]
 
   /**
+   * A matching [[Endpoint]] that reads a value of type `A` (using the implicit
+   * [[DecodePath]] instances defined for `A`) from the current path segment.
+   * This also includes the name of the variable an a description of its use,
+   * which only affects the documentation metadata.
+   */
+  def annotatedPath[F[_]: Sync, A: DecodePath: ClassTag](pathName: String, description: String): Endpoint[F, A] =
+    new AnnotatedExtractPath[F, A](pathName, description)
+
+  /**
    * A matching [[Endpoint]] that reads a tail value `A` (using the implicit
    * [[DecodePath]] instances defined for `A`) from the entire path.
    */

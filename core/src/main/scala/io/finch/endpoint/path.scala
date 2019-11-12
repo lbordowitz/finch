@@ -47,12 +47,12 @@ private[finch] class ExtractPath[F[_], A](implicit
   override def meta: Meta = EndpointMetadata.PathParam(ct)
 }
 
-private[finch] class AnnotatedExtractPath[F[_], A](pathName: String)(implicit
+private[finch] class AnnotatedExtractPath[F[_], A](pathName: String, description: String)(implicit
   d: DecodePath[A],
   ct: ClassTag[A],
   F: Applicative[F]
 ) extends ExtractPath[F, A] {
-  final override def meta: Meta = EndpointMetadata.PathParam(ct, Some(pathName))
+  final override def meta: Meta = EndpointMetadata.PathParam(ct, Some(pathName), Some(description))
 }
 
 private[finch] class ExtractPaths[F[_], A](implicit
