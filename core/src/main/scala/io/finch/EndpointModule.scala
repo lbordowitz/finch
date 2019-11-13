@@ -148,6 +148,12 @@ trait EndpointModule[F[_]] {
     Endpoint.path[F, A]
 
   /**
+   * An alias for [[Endpoint.annotatedPath]]
+   */
+  def annotatedPath[A: DecodePath: ClassTag](pathName: String, description: String)(implicit F: Sync[F]): Endpoint[F, A] =
+    Endpoint.annotatedPath[F, A](pathName, description)
+
+  /**
    * An alias for [[Endpoint.paths]].
    */
   def paths[A: DecodePath: ClassTag](implicit F: Sync[F]): Endpoint[F, List[A]] =
