@@ -55,4 +55,13 @@ object EndpointMetadata {
     override val parameterLocation: String = "header"
   }
 
+  case class BodyParam[T](
+    override val parameterType: ClassTag[T],
+    override val description: Option[String] = None,
+    override val required: Boolean = true
+  ) extends ParameterMetadata[T] {
+    override val parameterLocation: String = "body"
+    override val parameterNameOpt: Option[String] = Some("body")
+  }
+
 }
