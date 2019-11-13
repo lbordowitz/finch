@@ -914,7 +914,7 @@ object Endpoint {
    */
   def header[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, A] =
     new Header[F, Id, A](name) with Header.Required[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp(26)
+      final override def meta: Meta = EndpointMetadata.HeaderParam[A](implicitly[ClassTag[A]], Some(name))
     }
 
   /**

@@ -36,6 +36,7 @@ object EndpointMetadata {
   case class MetaList(metas: Seq[Meta]) extends EndpointMetadata
   case class Path(pathOpt: Option[String]) extends EndpointMetadata
   case class AndThen(firstMeta: Meta, secondMeta: Meta) extends EndpointMetadata
+
   case class PathParam[T](
     override val parameterType: ClassTag[T],
     override val parameterNameOpt: Option[String] = None,
@@ -43,6 +44,15 @@ object EndpointMetadata {
   ) extends ParameterMetadata[T] {
     override val parameterLocation: String = "path"
     override val required: Boolean = true
+  }
+
+  case class HeaderParam[T](
+    override val parameterType: ClassTag[T],
+    override val parameterNameOpt: Option[String] = None,
+    override val description: Option[String] = None,
+    override val required: Boolean = true
+  ) extends ParameterMetadata[T] {
+    override val parameterLocation: String = "header"
   }
 
 }
