@@ -923,7 +923,7 @@ object Endpoint {
    */
   def headerOption[F[_]: Sync, A: DecodeEntity: ClassTag](name: String): Endpoint[F, Option[A]] =
     new Header[F, Option, A](name) with Header.Optional[F, A] {
-      final override def meta: Meta = EndpointMetadata.NoOp(27)
+      final override def meta: Meta = EndpointMetadata.HeaderParam[A](implicitly[ClassTag[A]], Some(name), required = false)
     }
 
   /**
