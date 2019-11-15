@@ -64,4 +64,42 @@ object EndpointMetadata {
     override val parameterNameOpt: Option[String] = Some("body")
   }
 
+  case class EndpointInfo(
+    method: Option[FinagleMethod] = None,
+    path: Option[String] = None,
+    params: Vector[ParameterMetadata[_]] = Vector.empty
+  )
+
+  private def combinePathOpts(initOpt: Option[String], nextOpt: Option[String]): Option[String] = (
+    initOpt.fold(nextOpt.map("/" + _))(initPath => Some(
+      nextOpt.fold(initPath)(initPath + "/" + _)
+    ))
+    )
+
+  // not @tailrec, see AndThen case
+  def consolidateEndpointMeta(meta: EndpointMetadata, inits: Seq[EndpointInfo] = Vector(EndpointInfo())): Seq[EndpointInfo] = meta match {
+    case EndpointMetadata.NoOp(num) => println(s"NoOp numbered: $num"); ???
+    case EndpointMetadata.Method(method, em) => consolidateEndpointMeta(em, inits.map(init =>  init.copy(
+      method = Some(init.method.fold(method)(currentMethod => {
+        if (currentMethod != method) {
+          // TODO Invalid response for method mismatch
+          ???
+        } else method
+      }))
+    )))
+    case EndpointMetadata.Path(pathOpt) => inits.map(init => init.copy(path = combinePathOpts(init.path, pathOpt)))
+    // TODO this breaks tail recursion :(
+    case EndpointMetadata.AndThen(firstMeta, secondMeta) => consolidateEndpointMeta(secondMeta, consolidateEndpointMeta(firstMeta, inits))
+    case paramMeta @ EndpointMetadata.PathParam(pathType, pathVarNameOpt, _) => inits.map(init => init.copy(
+      // TODO determine random string for an unannotated path, coordinating it with the parameter
+      path = combinePathOpts(init.path, Some("{" + pathVarNameOpt.getOrElse("some" + pathType.runtimeClass.getSimpleName) + "}")),
+      params = init.params :+ paramMeta
+    ))
+    case headerParam: EndpointMetadata.HeaderParam[_] => inits.map(init => init.copy(
+      params = init.params :+ headerParam
+    ))
+    // TODO this breaks tail recursion :(
+    case EndpointMetadata.MetaList(metas) => metas.flatMap(consolidateEndpointMeta(_, inits))
+  }
+
 }
