@@ -5,6 +5,7 @@ import io.finch.Endpoint.Meta
 
 import scala.reflect.ClassTag
 
+// TODO unseal, for custom endpoints
 sealed trait EndpointMetadata
 sealed trait ParameterMetadata[T] extends EndpointMetadata {
   val parameterType: ClassTag[T]
@@ -78,6 +79,7 @@ object EndpointMetadata {
 
   // not @tailrec, see AndThen case
   def consolidateEndpointMeta(meta: EndpointMetadata, inits: Seq[EndpointInfo] = Vector(EndpointInfo())): Seq[EndpointInfo] = meta match {
+    // TODO remove unimplemented, and default an endpoint to implement its meta as a NoOp
     case EndpointMetadata.NoOp(num) => println(s"NoOp numbered: $num"); ???
     case EndpointMetadata.Method(method, em) => consolidateEndpointMeta(em, inits.map(init =>  init.copy(
       method = Some(init.method.fold(method)(currentMethod => {
